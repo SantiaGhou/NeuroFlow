@@ -6,6 +6,7 @@ import { NutritionEntry } from '../../types';
 export function NutritionView() {
   const { state, dispatch } = useApp();
   const { nutritionEntries } = state;
+  const isDark = state.theme === 'dark';
   const [showForm, setShowForm] = useState(false);
   
   const [newEntry, setNewEntry] = useState({
@@ -80,7 +81,7 @@ export function NutritionView() {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
-        className={`w-4 h-4 ${i < rating ? 'text-yellow-500 fill-current' : 'text-gray-300'}`}
+        className={`w-4 h-4 ${i < rating ? 'text-yellow-500 fill-current' : isDark ? 'text-gray-600' : 'text-gray-300'}`}
       />
     ));
   };
@@ -127,20 +128,28 @@ export function NutritionView() {
   const totalCalories = todayEntries.reduce((sum, entry) => sum + (entry.calories || 0), 0);
 
   return (
-    <div className="flex-1 overflow-auto bg-gradient-to-br from-gray-50 to-white">
+    <div className={`flex-1 overflow-auto ${
+      isDark 
+        ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-black' 
+        : 'bg-gradient-to-br from-gray-50 to-white'
+    }`}>
       <div className="p-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Nutrição</h1>
-            <p className="text-gray-600">
+            <h1 className={`text-4xl font-bold mb-2 ${
+              isDark ? 'text-white' : 'text-gray-900'
+            }`}>
+              Nutrição
+            </h1>
+            <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>
               Registre suas refeições e monitore sua alimentação
             </p>
           </div>
           
           <button
             onClick={() => setShowForm(true)}
-            className="flex items-center space-x-2 bg-gradient-to-r from-orange-500 to-red-600 text-white px-6 py-3 rounded-2xl hover:shadow-lg transition-all"
+            className="flex items-center space-x-2 bg-gradient-to-r from-orange-500 to-red-600 text-white px-6 py-3 rounded-2xl hover:shadow-lg hover:shadow-orange-500/30 transition-all"
           >
             <Plus className="w-5 h-5" />
             <span className="font-medium">Registrar Refeição</span>
@@ -149,62 +158,122 @@ export function NutritionView() {
 
         {/* Today's Summary */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+          <div className={`rounded-3xl p-6 shadow-sm border ${
+            isDark 
+              ? 'bg-gray-800/50 border-gray-700 backdrop-blur-xl' 
+              : 'bg-white border-gray-100'
+          }`}>
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/30">
                 <Utensils className="w-6 h-6 text-white" />
               </div>
-              <span className="text-2xl font-bold text-gray-900">{todayEntries.length}</span>
+              <span className={`text-2xl font-bold ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}>
+                {todayEntries.length}
+              </span>
             </div>
-            <p className="text-sm font-medium text-gray-600">Refeições Hoje</p>
+            <p className={`text-sm font-medium ${
+              isDark ? 'text-gray-400' : 'text-gray-600'
+            }`}>
+              Refeições Hoje
+            </p>
           </div>
 
-          <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+          <div className={`rounded-3xl p-6 shadow-sm border ${
+            isDark 
+              ? 'bg-gray-800/50 border-gray-700 backdrop-blur-xl' 
+              : 'bg-white border-gray-100'
+          }`}>
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center shadow-lg shadow-green-500/30">
                 <Apple className="w-6 h-6 text-white" />
               </div>
-              <span className="text-2xl font-bold text-gray-900">{totalCalories}</span>
+              <span className={`text-2xl font-bold ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}>
+                {totalCalories}
+              </span>
             </div>
-            <p className="text-sm font-medium text-gray-600">Calorias Hoje</p>
+            <p className={`text-sm font-medium ${
+              isDark ? 'text-gray-400' : 'text-gray-600'
+            }`}>
+              Calorias Hoje
+            </p>
           </div>
 
-          <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+          <div className={`rounded-3xl p-6 shadow-sm border ${
+            isDark 
+              ? 'bg-gray-800/50 border-gray-700 backdrop-blur-xl' 
+              : 'bg-white border-gray-100'
+          }`}>
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg shadow-yellow-500/30">
                 <TrendingUp className="w-6 h-6 text-white" />
               </div>
               <div className="text-right">
-                <span className="text-2xl font-bold text-gray-900">{weeklyAverage.toFixed(1)}</span>
-                <span className="text-lg text-gray-600">/5</span>
+                <span className={`text-2xl font-bold ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}>
+                  {weeklyAverage.toFixed(1)}
+                </span>
+                <span className={`text-lg ${
+                  isDark ? 'text-gray-400' : 'text-gray-600'
+                }`}>
+                  /5
+                </span>
               </div>
             </div>
-            <p className="text-sm font-medium text-gray-600">Qualidade Semanal</p>
+            <p className={`text-sm font-medium ${
+              isDark ? 'text-gray-400' : 'text-gray-600'
+            }`}>
+              Qualidade Semanal
+            </p>
           </div>
         </div>
 
         {/* Meal Stats */}
-        <div className="bg-white rounded-3xl p-8 mb-8 shadow-sm border border-gray-100">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Estatísticas por Refeição</h2>
+        <div className={`rounded-3xl p-8 mb-8 shadow-sm border ${
+          isDark 
+            ? 'bg-gray-800/50 border-gray-700 backdrop-blur-xl' 
+            : 'bg-white border-gray-100'
+        }`}>
+          <h2 className={`text-2xl font-bold mb-6 ${
+            isDark ? 'text-white' : 'text-gray-900'
+          }`}>
+            Estatísticas por Refeição
+          </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {mealStats.map(meal => {
               const Icon = meal.icon;
               
               return (
-                <div key={meal.id} className="p-6 bg-gray-50 rounded-2xl">
+                <div key={meal.id} className={`p-6 rounded-2xl ${
+                  isDark ? 'bg-gray-700/50' : 'bg-gray-50'
+                }`}>
                   <div className="flex items-center justify-between mb-4">
-                    <div className={`w-10 h-10 bg-gradient-to-r ${meal.color} rounded-xl flex items-center justify-center`}>
+                    <div className={`w-10 h-10 bg-gradient-to-r ${meal.color} rounded-xl flex items-center justify-center shadow-lg`}>
                       <Icon className="w-5 h-5 text-white" />
                     </div>
-                    <span className="text-xl font-bold text-gray-900">{meal.count}</span>
+                    <span className={`text-xl font-bold ${
+                      isDark ? 'text-white' : 'text-gray-900'
+                    }`}>
+                      {meal.count}
+                    </span>
                   </div>
                   
                   <div className="space-y-2">
-                    <p className="font-semibold text-gray-900">{meal.label}</p>
+                    <p className={`font-semibold ${
+                      isDark ? 'text-white' : 'text-gray-900'
+                    }`}>
+                      {meal.label}
+                    </p>
                     <div className="flex items-center space-x-1">
                       {getRatingStars(Math.round(meal.avgRating))}
-                      <span className="text-sm text-gray-600 ml-2">
+                      <span className={`text-sm ml-2 ${
+                        isDark ? 'text-gray-400' : 'text-gray-600'
+                      }`}>
                         {meal.avgRating.toFixed(1)}
                       </span>
                     </div>
@@ -216,8 +285,14 @@ export function NutritionView() {
         </div>
 
         {/* Today's Meals */}
-        <div className="bg-white rounded-3xl p-8 mb-8 shadow-sm border border-gray-100">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+        <div className={`rounded-3xl p-8 mb-8 shadow-sm border ${
+          isDark 
+            ? 'bg-gray-800/50 border-gray-700 backdrop-blur-xl' 
+            : 'bg-white border-gray-100'
+        }`}>
+          <h2 className={`text-2xl font-bold mb-6 flex items-center ${
+            isDark ? 'text-white' : 'text-gray-900'
+          }`}>
             <Calendar className="w-6 h-6 mr-3" />
             Refeições de Hoje
           </h2>
@@ -228,13 +303,19 @@ export function NutritionView() {
                 const Icon = getMealIcon(entry.meal);
                 
                 return (
-                  <div key={entry.id} className="p-6 bg-gray-50 rounded-2xl">
+                  <div key={entry.id} className={`p-6 rounded-2xl ${
+                    isDark ? 'bg-gray-700/50' : 'bg-gray-50'
+                  }`}>
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center space-x-3">
-                        <div className={`w-10 h-10 bg-gradient-to-r ${getMealColor(entry.meal)} rounded-xl flex items-center justify-center`}>
+                        <div className={`w-10 h-10 bg-gradient-to-r ${getMealColor(entry.meal)} rounded-xl flex items-center justify-center shadow-lg`}>
                           <Icon className="w-5 h-5 text-white" />
                         </div>
-                        <span className="font-semibold text-gray-900">{getMealLabel(entry.meal)}</span>
+                        <span className={`font-semibold ${
+                          isDark ? 'text-white' : 'text-gray-900'
+                        }`}>
+                          {getMealLabel(entry.meal)}
+                        </span>
                       </div>
                       
                       <div className="flex items-center space-x-1">
@@ -244,8 +325,14 @@ export function NutritionView() {
                     
                     <div className="space-y-2">
                       <div>
-                        <p className="text-sm font-medium text-gray-700 mb-1">Alimentos:</p>
-                        <ul className="text-sm text-gray-600">
+                        <p className={`text-sm font-medium mb-1 ${
+                          isDark ? 'text-gray-300' : 'text-gray-700'
+                        }`}>
+                          Alimentos:
+                        </p>
+                        <ul className={`text-sm ${
+                          isDark ? 'text-gray-400' : 'text-gray-600'
+                        }`}>
                           {entry.foods.map((food, index) => (
                             <li key={index}>• {food}</li>
                           ))}
@@ -253,8 +340,12 @@ export function NutritionView() {
                       </div>
                       
                       {entry.calories && (
-                        <div className="pt-2 border-t border-gray-200">
-                          <p className="text-sm text-gray-600">
+                        <div className={`pt-2 border-t ${
+                          isDark ? 'border-gray-600' : 'border-gray-200'
+                        }`}>
+                          <p className={`text-sm ${
+                            isDark ? 'text-gray-400' : 'text-gray-600'
+                          }`}>
                             <span className="font-medium">Calorias:</span> {entry.calories}
                           </p>
                         </div>
@@ -266,15 +357,27 @@ export function NutritionView() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <Utensils className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-              <p className="text-gray-600">Nenhuma refeição registrada hoje</p>
+              <Utensils className={`w-12 h-12 mx-auto mb-3 ${
+                isDark ? 'text-gray-600' : 'text-gray-400'
+              }`} />
+              <p className={isDark ? 'text-gray-500' : 'text-gray-600'}>
+                Nenhuma refeição registrada hoje
+              </p>
             </div>
           )}
         </div>
 
         {/* Recent Entries */}
-        <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Histórico Recente</h2>
+        <div className={`rounded-3xl p-8 shadow-sm border ${
+          isDark 
+            ? 'bg-gray-800/50 border-gray-700 backdrop-blur-xl' 
+            : 'bg-white border-gray-100'
+        }`}>
+          <h2 className={`text-2xl font-bold mb-6 ${
+            isDark ? 'text-white' : 'text-gray-900'
+          }`}>
+            Histórico Recente
+          </h2>
           
           {nutritionEntries.length > 0 ? (
             <div className="space-y-4">
@@ -285,14 +388,22 @@ export function NutritionView() {
                   const Icon = getMealIcon(entry.meal);
                   
                   return (
-                    <div key={entry.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl">
+                    <div key={entry.id} className={`flex items-center justify-between p-4 rounded-2xl ${
+                      isDark ? 'bg-gray-700/50' : 'bg-gray-50'
+                    }`}>
                       <div className="flex items-center space-x-4">
-                        <div className={`w-10 h-10 bg-gradient-to-r ${getMealColor(entry.meal)} rounded-xl flex items-center justify-center`}>
+                        <div className={`w-10 h-10 bg-gradient-to-r ${getMealColor(entry.meal)} rounded-xl flex items-center justify-center shadow-lg`}>
                           <Icon className="w-5 h-5 text-white" />
                         </div>
                         <div>
-                          <p className="font-semibold text-gray-900">{getMealLabel(entry.meal)}</p>
-                          <p className="text-sm text-gray-600">
+                          <p className={`font-semibold ${
+                            isDark ? 'text-white' : 'text-gray-900'
+                          }`}>
+                            {getMealLabel(entry.meal)}
+                          </p>
+                          <p className={`text-sm ${
+                            isDark ? 'text-gray-400' : 'text-gray-600'
+                          }`}>
                             {new Date(entry.date).toLocaleDateString('pt-BR')} • {entry.foods.join(', ')}
                           </p>
                         </div>
@@ -303,7 +414,11 @@ export function NutritionView() {
                           {getRatingStars(entry.rating)}
                         </div>
                         {entry.calories && (
-                          <p className="text-sm text-gray-600">{entry.calories} cal</p>
+                          <p className={`text-sm ${
+                            isDark ? 'text-gray-400' : 'text-gray-600'
+                          }`}>
+                            {entry.calories} cal
+                          </p>
                         )}
                       </div>
                     </div>
@@ -312,9 +427,17 @@ export function NutritionView() {
             </div>
           ) : (
             <div className="text-center py-16">
-              <Utensils className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Nenhuma refeição registrada</h3>
-              <p className="text-gray-600">Comece registrando suas refeições!</p>
+              <Utensils className={`w-16 h-16 mx-auto mb-4 ${
+                isDark ? 'text-gray-600' : 'text-gray-400'
+              }`} />
+              <h3 className={`text-xl font-semibold mb-2 ${
+                isDark ? 'text-gray-300' : 'text-gray-900'
+              }`}>
+                Nenhuma refeição registrada
+              </h3>
+              <p className={isDark ? 'text-gray-500' : 'text-gray-600'}>
+                Comece registrando suas refeições!
+              </p>
             </div>
           )}
         </div>
@@ -322,12 +445,24 @@ export function NutritionView() {
         {/* Add Entry Modal */}
         {showForm && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-3xl p-8 w-full max-w-md max-h-[90vh] overflow-y-auto">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Registrar Refeição</h3>
+            <div className={`rounded-3xl p-8 w-full max-w-md max-h-[90vh] overflow-y-auto ${
+              isDark 
+                ? 'bg-gray-800 border border-gray-700' 
+                : 'bg-white'
+            }`}>
+              <h3 className={`text-2xl font-bold mb-6 ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}>
+                Registrar Refeição
+              </h3>
               
               <div className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">Tipo de Refeição</label>
+                  <label className={`block text-sm font-medium mb-3 ${
+                    isDark ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    Tipo de Refeição
+                  </label>
                   <div className="grid grid-cols-2 gap-3">
                     {mealTypes.map(meal => {
                       const Icon = meal.icon;
@@ -339,15 +474,23 @@ export function NutritionView() {
                           onClick={() => setNewEntry(prev => ({ ...prev, meal: meal.id as any }))}
                           className={`p-3 rounded-2xl border-2 transition-all ${
                             isSelected
-                              ? 'border-orange-500 bg-orange-50'
-                              : 'border-gray-200 hover:border-gray-300'
+                              ? isDark
+                                ? 'border-orange-500 bg-orange-500/20'
+                                : 'border-orange-500 bg-orange-50'
+                              : isDark
+                                ? 'border-gray-600 hover:border-gray-500'
+                                : 'border-gray-200 hover:border-gray-300'
                           }`}
                         >
                           <div className="flex flex-col items-center space-y-2">
-                            <div className={`w-8 h-8 bg-gradient-to-r ${meal.color} rounded-lg flex items-center justify-center`}>
+                            <div className={`w-8 h-8 bg-gradient-to-r ${meal.color} rounded-lg flex items-center justify-center shadow-lg`}>
                               <Icon className="w-4 h-4 text-white" />
                             </div>
-                            <span className="text-sm font-medium">{meal.label}</span>
+                            <span className={`text-sm font-medium ${
+                              isDark ? 'text-white' : 'text-gray-900'
+                            }`}>
+                              {meal.label}
+                            </span>
                           </div>
                         </button>
                       );
@@ -356,7 +499,11 @@ export function NutritionView() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">Alimentos</label>
+                  <label className={`block text-sm font-medium mb-3 ${
+                    isDark ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    Alimentos
+                  </label>
                   <div className="space-y-2">
                     {newEntry.foods.map((food, index) => (
                       <div key={index} className="flex space-x-2">
@@ -365,12 +512,20 @@ export function NutritionView() {
                           value={food}
                           onChange={(e) => updateFood(index, e.target.value)}
                           placeholder={`Alimento ${index + 1}`}
-                          className="flex-1 px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500"
+                          className={`flex-1 px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 ${
+                            isDark 
+                              ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                              : 'bg-white border-gray-200 text-gray-900'
+                          }`}
                         />
                         {newEntry.foods.length > 1 && (
                           <button
                             onClick={() => removeFoodField(index)}
-                            className="px-3 py-2 text-red-600 hover:bg-red-50 rounded-xl transition-colors"
+                            className={`px-3 py-2 rounded-xl transition-colors ${
+                              isDark 
+                                ? 'text-red-400 hover:bg-red-500/20' 
+                                : 'text-red-600 hover:bg-red-50'
+                            }`}
                           >
                             ×
                           </button>
@@ -380,25 +535,39 @@ export function NutritionView() {
                   </div>
                   <button
                     onClick={addFoodField}
-                    className="mt-2 text-sm text-orange-600 hover:text-orange-700"
+                    className={`mt-2 text-sm transition-colors ${
+                      isDark 
+                        ? 'text-orange-400 hover:text-orange-300' 
+                        : 'text-orange-600 hover:text-orange-700'
+                    }`}
                   >
                     + Adicionar alimento
                   </button>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Calorias (opcional)</label>
+                  <label className={`block text-sm font-medium mb-2 ${
+                    isDark ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    Calorias (opcional)
+                  </label>
                   <input
                     type="number"
                     value={newEntry.calories}
                     onChange={(e) => setNewEntry(prev => ({ ...prev, calories: Number(e.target.value) }))}
                     placeholder="0"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className={`w-full px-4 py-3 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 ${
+                      isDark 
+                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                        : 'bg-white border-gray-200 text-gray-900'
+                    }`}
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                  <label className={`block text-sm font-medium mb-3 ${
+                    isDark ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
                     Qualidade da refeição: {newEntry.rating}/5
                   </label>
                   <div className="flex items-center space-x-2">
@@ -412,13 +581,15 @@ export function NutritionView() {
                           className={`w-8 h-8 ${
                             rating <= newEntry.rating 
                               ? 'text-yellow-500 fill-current' 
-                              : 'text-gray-300'
+                              : isDark ? 'text-gray-600' : 'text-gray-300'
                           }`}
                         />
                       </button>
                     ))}
                   </div>
-                  <p className="text-xs text-gray-500 mt-2">
+                  <p className={`text-xs mt-2 ${
+                    isDark ? 'text-gray-500' : 'text-gray-500'
+                  }`}>
                     1 = Muito ruim, 5 = Excelente
                   </p>
                 </div>
@@ -427,13 +598,17 @@ export function NutritionView() {
               <div className="flex space-x-3 mt-8">
                 <button
                   onClick={() => setShowForm(false)}
-                  className="flex-1 px-6 py-3 text-gray-700 bg-gray-100 rounded-2xl hover:bg-gray-200 transition-colors font-medium"
+                  className={`flex-1 px-6 py-3 rounded-2xl transition-colors font-medium ${
+                    isDark 
+                      ? 'text-gray-300 bg-gray-700 hover:bg-gray-600' 
+                      : 'text-gray-700 bg-gray-100 hover:bg-gray-200'
+                  }`}
                 >
                   Cancelar
                 </button>
                 <button
                   onClick={handleAddEntry}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-2xl hover:shadow-lg transition-all font-medium"
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-2xl hover:shadow-lg hover:shadow-orange-500/30 transition-all font-medium"
                 >
                   Registrar
                 </button>

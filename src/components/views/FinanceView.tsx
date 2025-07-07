@@ -6,6 +6,7 @@ import { FinanceEntry } from '../../types';
 export function FinanceView() {
   const { state, dispatch } = useApp();
   const { financeEntries } = state;
+  const isDark = state.theme === 'dark';
   const [showForm, setShowForm] = useState(false);
   const [filterType, setFilterType] = useState<string>('all');
   const [filterPeriod, setFilterPeriod] = useState<string>('month');
@@ -118,20 +119,28 @@ export function FinanceView() {
   };
 
   return (
-    <div className="flex-1 overflow-auto bg-gradient-to-br from-gray-50 to-white">
+    <div className={`flex-1 overflow-auto ${
+      isDark 
+        ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-black' 
+        : 'bg-gradient-to-br from-gray-50 to-white'
+    }`}>
       <div className="p-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Finanças</h1>
-            <p className="text-gray-600">
+            <h1 className={`text-4xl font-bold mb-2 ${
+              isDark ? 'text-white' : 'text-gray-900'
+            }`}>
+              Finanças
+            </h1>
+            <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>
               Controle suas receitas e despesas
             </p>
           </div>
           
           <button
             onClick={() => setShowForm(true)}
-            className="flex items-center space-x-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-2xl hover:shadow-lg transition-all"
+            className="flex items-center space-x-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-2xl hover:shadow-lg hover:shadow-green-500/30 transition-all"
           >
             <Plus className="w-5 h-5" />
             <span className="font-medium">Nova Transação</span>
@@ -139,13 +148,21 @@ export function FinanceView() {
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-3xl p-6 mb-8 shadow-sm border border-gray-100">
+        <div className={`rounded-3xl p-6 mb-8 shadow-sm border ${
+          isDark 
+            ? 'bg-gray-800/50 border-gray-700 backdrop-blur-xl' 
+            : 'bg-white border-gray-100'
+        }`}>
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex gap-3">
               <select
                 value={filterPeriod}
                 onChange={(e) => setFilterPeriod(e.target.value)}
-                className="px-4 py-3 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-green-500"
+                className={`px-4 py-3 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-green-500 ${
+                  isDark 
+                    ? 'bg-gray-700 border-gray-600 text-white' 
+                    : 'bg-white border-gray-200 text-gray-900'
+                }`}
               >
                 <option value="week">Esta Semana</option>
                 <option value="month">Este Mês</option>
@@ -156,7 +173,11 @@ export function FinanceView() {
               <select
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value)}
-                className="px-4 py-3 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-green-500"
+                className={`px-4 py-3 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-green-500 ${
+                  isDark 
+                    ? 'bg-gray-700 border-gray-600 text-white' 
+                    : 'bg-white border-gray-200 text-gray-900'
+                }`}
               >
                 <option value="all">Todas as Transações</option>
                 <option value="income">Apenas Receitas</option>
@@ -168,48 +189,78 @@ export function FinanceView() {
 
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+          <div className={`rounded-3xl p-6 shadow-sm border ${
+            isDark 
+              ? 'bg-gray-800/50 border-gray-700 backdrop-blur-xl' 
+              : 'bg-white border-gray-100'
+          }`}>
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center shadow-lg shadow-green-500/30">
                 <ArrowUpRight className="w-6 h-6 text-white" />
               </div>
               <span className="text-2xl font-bold text-green-600">
                 {formatCurrency(totalIncome)}
               </span>
             </div>
-            <p className="text-sm font-medium text-gray-600">Receitas - {getPeriodLabel()}</p>
+            <p className={`text-sm font-medium ${
+              isDark ? 'text-gray-400' : 'text-gray-600'
+            }`}>
+              Receitas - {getPeriodLabel()}
+            </p>
           </div>
 
-          <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+          <div className={`rounded-3xl p-6 shadow-sm border ${
+            isDark 
+              ? 'bg-gray-800/50 border-gray-700 backdrop-blur-xl' 
+              : 'bg-white border-gray-100'
+          }`}>
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-pink-500 rounded-2xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg shadow-red-500/30">
                 <ArrowDownRight className="w-6 h-6 text-white" />
               </div>
               <span className="text-2xl font-bold text-red-600">
                 {formatCurrency(totalExpenses)}
               </span>
             </div>
-            <p className="text-sm font-medium text-gray-600">Despesas - {getPeriodLabel()}</p>
+            <p className={`text-sm font-medium ${
+              isDark ? 'text-gray-400' : 'text-gray-600'
+            }`}>
+              Despesas - {getPeriodLabel()}
+            </p>
           </div>
 
-          <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+          <div className={`rounded-3xl p-6 shadow-sm border ${
+            isDark 
+              ? 'bg-gray-800/50 border-gray-700 backdrop-blur-xl' 
+              : 'bg-white border-gray-100'
+          }`}>
             <div className="flex items-center justify-between mb-4">
-              <div className={`w-12 h-12 bg-gradient-to-r ${balance >= 0 ? 'from-blue-500 to-purple-500' : 'from-orange-500 to-red-500'} rounded-2xl flex items-center justify-center`}>
+              <div className={`w-12 h-12 bg-gradient-to-r ${balance >= 0 ? 'from-blue-500 to-purple-500' : 'from-orange-500 to-red-500'} rounded-2xl flex items-center justify-center shadow-lg`}>
                 <DollarSign className="w-6 h-6 text-white" />
               </div>
               <span className={`text-2xl font-bold ${balance >= 0 ? 'text-blue-600' : 'text-red-600'}`}>
                 {formatCurrency(balance)}
               </span>
             </div>
-            <p className="text-sm font-medium text-gray-600">Saldo - {getPeriodLabel()}</p>
+            <p className={`text-sm font-medium ${
+              isDark ? 'text-gray-400' : 'text-gray-600'
+            }`}>
+              Saldo - {getPeriodLabel()}
+            </p>
           </div>
         </div>
 
         {/* Categories Analysis */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Expenses by Category */}
-          <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+          <div className={`rounded-3xl p-8 shadow-sm border ${
+            isDark 
+              ? 'bg-gray-800/50 border-gray-700 backdrop-blur-xl' 
+              : 'bg-white border-gray-100'
+          }`}>
+            <h2 className={`text-2xl font-bold mb-6 flex items-center ${
+              isDark ? 'text-white' : 'text-gray-900'
+            }`}>
               <TrendingDown className="w-6 h-6 mr-3 text-red-500" />
               Despesas por Categoria
             </h2>
@@ -222,30 +273,50 @@ export function FinanceView() {
                   return (
                     <div key={category} className="space-y-2">
                       <div className="flex justify-between items-center">
-                        <span className="font-medium text-gray-900">{category}</span>
+                        <span className={`font-medium ${
+                          isDark ? 'text-white' : 'text-gray-900'
+                        }`}>
+                          {category}
+                        </span>
                         <span className="text-red-600 font-bold">{formatCurrency(amount)}</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className={`w-full rounded-full h-2 ${
+                        isDark ? 'bg-gray-700' : 'bg-gray-200'
+                      }`}>
                         <div 
                           className="bg-gradient-to-r from-red-500 to-pink-500 h-2 rounded-full transition-all duration-300"
                           style={{ width: `${percentage}%` }}
                         />
                       </div>
                       <div className="text-right">
-                        <span className="text-xs text-gray-500">{percentage.toFixed(1)}%</span>
+                        <span className={`text-xs ${
+                          isDark ? 'text-gray-500' : 'text-gray-500'
+                        }`}>
+                          {percentage.toFixed(1)}%
+                        </span>
                       </div>
                     </div>
                   );
                 })}
               </div>
             ) : (
-              <p className="text-gray-500 text-center py-8">Nenhuma despesa registrada</p>
+              <p className={`text-center py-8 ${
+                isDark ? 'text-gray-500' : 'text-gray-500'
+              }`}>
+                Nenhuma despesa registrada
+              </p>
             )}
           </div>
 
           {/* Income by Category */}
-          <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+          <div className={`rounded-3xl p-8 shadow-sm border ${
+            isDark 
+              ? 'bg-gray-800/50 border-gray-700 backdrop-blur-xl' 
+              : 'bg-white border-gray-100'
+          }`}>
+            <h2 className={`text-2xl font-bold mb-6 flex items-center ${
+              isDark ? 'text-white' : 'text-gray-900'
+            }`}>
               <TrendingUp className="w-6 h-6 mr-3 text-green-500" />
               Receitas por Categoria
             </h2>
@@ -258,31 +329,53 @@ export function FinanceView() {
                   return (
                     <div key={category} className="space-y-2">
                       <div className="flex justify-between items-center">
-                        <span className="font-medium text-gray-900">{category}</span>
+                        <span className={`font-medium ${
+                          isDark ? 'text-white' : 'text-gray-900'
+                        }`}>
+                          {category}
+                        </span>
                         <span className="text-green-600 font-bold">{formatCurrency(amount)}</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className={`w-full rounded-full h-2 ${
+                        isDark ? 'bg-gray-700' : 'bg-gray-200'
+                      }`}>
                         <div 
                           className="bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full transition-all duration-300"
                           style={{ width: `${percentage}%` }}
                         />
                       </div>
                       <div className="text-right">
-                        <span className="text-xs text-gray-500">{percentage.toFixed(1)}%</span>
+                        <span className={`text-xs ${
+                          isDark ? 'text-gray-500' : 'text-gray-500'
+                        }`}>
+                          {percentage.toFixed(1)}%
+                        </span>
                       </div>
                     </div>
                   );
                 })}
               </div>
             ) : (
-              <p className="text-gray-500 text-center py-8">Nenhuma receita registrada</p>
+              <p className={`text-center py-8 ${
+                isDark ? 'text-gray-500' : 'text-gray-500'
+              }`}>
+                Nenhuma receita registrada
+              </p>
             )}
           </div>
         </div>
 
         {/* Recent Transactions */}
-        <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Transações Recentes</h2>
+        <div className={`rounded-3xl p-8 shadow-sm border ${
+          isDark 
+            ? 'bg-gray-800/50 border-gray-700 backdrop-blur-xl' 
+            : 'bg-white border-gray-100'
+        }`}>
+          <h2 className={`text-2xl font-bold mb-6 ${
+            isDark ? 'text-white' : 'text-gray-900'
+          }`}>
+            Transações Recentes
+          </h2>
           
           {filteredEntries.length > 0 ? (
             <div className="space-y-4">
@@ -290,13 +383,15 @@ export function FinanceView() {
                 .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                 .slice(0, 10)
                 .map(entry => (
-                  <div key={entry.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl">
+                  <div key={entry.id} className={`flex items-center justify-between p-4 rounded-2xl ${
+                    isDark ? 'bg-gray-700/50' : 'bg-gray-50'
+                  }`}>
                     <div className="flex items-center space-x-4">
                       <div className={`w-10 h-10 bg-gradient-to-r ${
                         entry.type === 'income' 
                           ? 'from-green-500 to-emerald-500' 
                           : 'from-red-500 to-pink-500'
-                      } rounded-xl flex items-center justify-center`}>
+                      } rounded-xl flex items-center justify-center shadow-lg`}>
                         {entry.type === 'income' ? (
                           <ArrowUpRight className="w-5 h-5 text-white" />
                         ) : (
@@ -304,8 +399,14 @@ export function FinanceView() {
                         )}
                       </div>
                       <div>
-                        <p className="font-semibold text-gray-900">{entry.description}</p>
-                        <div className="flex items-center space-x-2 text-sm text-gray-600">
+                        <p className={`font-semibold ${
+                          isDark ? 'text-white' : 'text-gray-900'
+                        }`}>
+                          {entry.description}
+                        </p>
+                        <div className={`flex items-center space-x-2 text-sm ${
+                          isDark ? 'text-gray-400' : 'text-gray-600'
+                        }`}>
                           <span>{entry.category}</span>
                           <span>•</span>
                           <span>{new Date(entry.date).toLocaleDateString('pt-BR')}</span>
@@ -325,9 +426,17 @@ export function FinanceView() {
             </div>
           ) : (
             <div className="text-center py-16">
-              <DollarSign className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Nenhuma transação encontrada</h3>
-              <p className="text-gray-600">Comece registrando suas receitas e despesas!</p>
+              <DollarSign className={`w-16 h-16 mx-auto mb-4 ${
+                isDark ? 'text-gray-600' : 'text-gray-400'
+              }`} />
+              <h3 className={`text-xl font-semibold mb-2 ${
+                isDark ? 'text-gray-300' : 'text-gray-900'
+              }`}>
+                Nenhuma transação encontrada
+              </h3>
+              <p className={isDark ? 'text-gray-500' : 'text-gray-600'}>
+                Comece registrando suas receitas e despesas!
+              </p>
             </div>
           )}
         </div>
@@ -335,19 +444,35 @@ export function FinanceView() {
         {/* Add Entry Modal */}
         {showForm && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-3xl p-8 w-full max-w-md">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Nova Transação</h3>
+            <div className={`rounded-3xl p-8 w-full max-w-md ${
+              isDark 
+                ? 'bg-gray-800 border border-gray-700' 
+                : 'bg-white'
+            }`}>
+              <h3 className={`text-2xl font-bold mb-6 ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}>
+                Nova Transação
+              </h3>
               
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Tipo</label>
+                  <label className={`block text-sm font-medium mb-2 ${
+                    isDark ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    Tipo
+                  </label>
                   <div className="grid grid-cols-2 gap-3">
                     <button
                       onClick={() => setNewEntry(prev => ({ ...prev, type: 'income', category: '' }))}
                       className={`p-3 rounded-2xl border-2 transition-all ${
                         newEntry.type === 'income'
-                          ? 'border-green-500 bg-green-50 text-green-700'
-                          : 'border-gray-200 hover:border-gray-300'
+                          ? isDark
+                            ? 'border-green-500 bg-green-500/20 text-green-400'
+                            : 'border-green-500 bg-green-50 text-green-700'
+                          : isDark
+                            ? 'border-gray-600 hover:border-gray-500 text-gray-300'
+                            : 'border-gray-200 hover:border-gray-300 text-gray-700'
                       }`}
                     >
                       Receita
@@ -356,8 +481,12 @@ export function FinanceView() {
                       onClick={() => setNewEntry(prev => ({ ...prev, type: 'expense', category: '' }))}
                       className={`p-3 rounded-2xl border-2 transition-all ${
                         newEntry.type === 'expense'
-                          ? 'border-red-500 bg-red-50 text-red-700'
-                          : 'border-gray-200 hover:border-gray-300'
+                          ? isDark
+                            ? 'border-red-500 bg-red-500/20 text-red-400'
+                            : 'border-red-500 bg-red-50 text-red-700'
+                          : isDark
+                            ? 'border-gray-600 hover:border-gray-500 text-gray-300'
+                            : 'border-gray-200 hover:border-gray-300 text-gray-700'
                       }`}
                     >
                       Despesa
@@ -366,22 +495,38 @@ export function FinanceView() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Valor</label>
+                  <label className={`block text-sm font-medium mb-2 ${
+                    isDark ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    Valor
+                  </label>
                   <input
                     type="number"
                     value={newEntry.amount}
                     onChange={(e) => setNewEntry(prev => ({ ...prev, amount: Number(e.target.value) }))}
                     placeholder="0,00"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className={`w-full px-4 py-3 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-green-500 ${
+                      isDark 
+                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                        : 'bg-white border-gray-200 text-gray-900'
+                    }`}
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Categoria</label>
+                  <label className={`block text-sm font-medium mb-2 ${
+                    isDark ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    Categoria
+                  </label>
                   <select
                     value={newEntry.category}
                     onChange={(e) => setNewEntry(prev => ({ ...prev, category: e.target.value }))}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className={`w-full px-4 py-3 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-green-500 ${
+                      isDark 
+                        ? 'bg-gray-700 border-gray-600 text-white' 
+                        : 'bg-white border-gray-200 text-gray-900'
+                    }`}
                   >
                     <option value="">Selecione uma categoria</option>
                     {categories[newEntry.type].map(category => (
@@ -391,13 +536,21 @@ export function FinanceView() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Descrição</label>
+                  <label className={`block text-sm font-medium mb-2 ${
+                    isDark ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    Descrição
+                  </label>
                   <input
                     type="text"
                     value={newEntry.description}
                     onChange={(e) => setNewEntry(prev => ({ ...prev, description: e.target.value }))}
                     placeholder="Descrição da transação"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className={`w-full px-4 py-3 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-green-500 ${
+                      isDark 
+                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                        : 'bg-white border-gray-200 text-gray-900'
+                    }`}
                   />
                 </div>
               </div>
@@ -405,13 +558,17 @@ export function FinanceView() {
               <div className="flex space-x-3 mt-8">
                 <button
                   onClick={() => setShowForm(false)}
-                  className="flex-1 px-6 py-3 text-gray-700 bg-gray-100 rounded-2xl hover:bg-gray-200 transition-colors font-medium"
+                  className={`flex-1 px-6 py-3 rounded-2xl transition-colors font-medium ${
+                    isDark 
+                      ? 'text-gray-300 bg-gray-700 hover:bg-gray-600' 
+                      : 'text-gray-700 bg-gray-100 hover:bg-gray-200'
+                  }`}
                 >
                   Cancelar
                 </button>
                 <button
                   onClick={handleAddEntry}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-2xl hover:shadow-lg transition-all font-medium"
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-2xl hover:shadow-lg hover:shadow-green-500/30 transition-all font-medium"
                 >
                   Adicionar
                 </button>

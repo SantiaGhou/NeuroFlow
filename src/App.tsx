@@ -9,6 +9,7 @@ import { DiaryView } from './components/views/DiaryView';
 import { HealthView } from './components/views/HealthView';
 import { FinanceView } from './components/views/FinanceView';
 import { NutritionView } from './components/views/NutritionView';
+import { RewardsView } from './components/views/RewardsView';
 import { Onboarding } from './components/Onboarding';
 import { useApp } from './contexts/AppContext';
 
@@ -36,6 +37,8 @@ function AppContent() {
         return <FinanceView />;
       case 'nutrition':
         return <NutritionView />;
+      case 'rewards':
+        return <RewardsView />;
       default:
         return <Dashboard />;
     }

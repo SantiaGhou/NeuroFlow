@@ -53,6 +53,7 @@ npm run dev
 ## Estrutura do Projeto
 
 ```
+FUTURO***
 NeuroFlow/
 ├── backend/         # API Node.js + Express
 ├── frontend/        # Aplicação React + Vite

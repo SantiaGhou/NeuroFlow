@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ChevronRight, ChevronLeft, Target, Heart, Brain, DollarSign, Utensils, CheckCircle2 } from 'lucide-react';
 import { useApp } from '../contexts/AppContext';
 import { OnboardingData } from '../types';
+import { BrainLogo } from './BrainLogo';
 
 export function Onboarding() {
   const { state, dispatch } = useApp();
@@ -87,6 +88,9 @@ export function Onboarding() {
         return (
           <div className="text-center space-y-8">
             <div className="space-y-6">
+              <div className="flex justify-center">
+                <BrainLogo size="lg" animated />
+              </div>
               <h1 className={`text-4xl font-bold ${
                 isDark ? 'text-white' : 'text-gray-900'
               }`}>

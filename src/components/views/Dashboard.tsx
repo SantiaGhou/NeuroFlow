@@ -8,6 +8,7 @@ import { TrendingUp, Calendar, Target, Zap } from 'lucide-react';
 
 export function Dashboard() {
   const { state } = useApp();
+  const isDark = state.theme === 'dark';
   
   const completedTasks = state.tasks.filter(task => task.completed).length;
   const totalTasks = state.tasks.length;
@@ -46,14 +47,22 @@ export function Dashboard() {
   ];
 
   return (
-    <div className="flex-1 overflow-auto bg-gradient-to-br from-gray-50 to-white">
+    <div className={`flex-1 overflow-auto ${
+      isDark 
+        ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-black' 
+        : 'bg-gradient-to-br from-gray-50 to-white'
+    }`}>
       <div className="p-8">
         {/* Welcome Section */}
         <div className="mb-8">
-          <h2 className="text-4xl font-bold text-gray-900 mb-3">
+          <h2 className={`text-4xl font-bold mb-3 ${
+            isDark ? 'text-white' : 'text-gray-900'
+          }`}>
             Olá, {state.user?.name}! 👋
           </h2>
-          <p className="text-xl text-gray-600">
+          <p className={`text-xl ${
+            isDark ? 'text-gray-400' : 'text-gray-600'
+          }`}>
             Você está indo muito bem! Continue assim e alcance seus objetivos.
           </p>
         </div>
@@ -63,16 +72,30 @@ export function Dashboard() {
           {stats.map((stat, index) => {
             const Icon = stat.icon;
             return (
-              <div key={index} className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all">
+              <div key={index} className={`rounded-3xl p-6 shadow-sm border transition-all hover:shadow-md ${
+                isDark 
+                  ? 'bg-gray-800/50 border-gray-700 backdrop-blur-xl' 
+                  : 'bg-white border-gray-100'
+              }`}>
                 <div className="flex items-center justify-between mb-4">
                   <div className={`w-12 h-12 bg-gradient-to-r ${stat.color} rounded-2xl flex items-center justify-center shadow-lg`}>
                     <Icon className="w-6 h-6 text-white" />
                   </div>
-                  <span className="text-2xl font-bold text-gray-900">{stat.value}</span>
+                  <span className={`text-2xl font-bold ${
+                    isDark ? 'text-white' : 'text-gray-900'
+                  }`}>
+                    {stat.value}
+                  </span>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-sm font-medium text-gray-600">{stat.label}</p>
-                  <div className="w-full bg-gray-100 rounded-full h-2">
+                  <p className={`text-sm font-medium ${
+                    isDark ? 'text-gray-400' : 'text-gray-600'
+                  }`}>
+                    {stat.label}
+                  </p>
+                  <div className={`w-full rounded-full h-2 ${
+                    isDark ? 'bg-gray-700' : 'bg-gray-100'
+                  }`}>
                     <div 
                       className={`h-2 rounded-full bg-gradient-to-r ${stat.color} transition-all duration-500`}
                       style={{ width: `${stat.percentage}%` }}
@@ -103,7 +126,9 @@ export function Dashboard() {
           </div>
           
           <div className="lg:col-span-1">
-            <div className="bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 rounded-3xl p-8 text-white h-full shadow-xl">
+            <div className={`bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 rounded-3xl p-8 text-white h-full shadow-xl ${
+              isDark ? 'shadow-orange-500/20' : ''
+            }`}>
               <h3 className="text-2xl font-bold mb-6 flex items-center">
                 🏆 Conquistas
               </h3>
