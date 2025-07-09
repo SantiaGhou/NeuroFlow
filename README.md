@@ -29,7 +29,6 @@
 - [Node.js](https://nodejs.org/)
 - [React](https://react.dev/) (frontend)
 - [Express](https://expressjs.com/) (backend)
-- [Prisma](https://www.prisma.io/) (ORM)
 - [PostgreSQL](https://www.postgresql.org/) (banco de dados)
 - [OpenAI API](https://openai.com/) (IA)
 
@@ -55,10 +54,8 @@ npm run dev
 ```
 FUTURO***
 NeuroFlow/
-├── backend/         # API Node.js + Express
-├── frontend/        # Aplicação React + Vite
-├── prisma/          # Migrations e schema do banco
-├── docs/            # Documentação adicional
+├── server/         # API Node.js + Express
+├── src/        # Aplicação React + Vite
 └── README.md
 ```
 

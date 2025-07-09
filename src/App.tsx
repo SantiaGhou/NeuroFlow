@@ -10,6 +10,7 @@ import { HealthView } from './components/views/HealthView';
 import { FinanceView } from './components/views/FinanceView';
 import { NutritionView } from './components/views/NutritionView';
 import { RewardsView } from './components/views/RewardsView';
+import { PomodoroView } from './components/views/PomodoroView';
 import { Onboarding } from './components/Onboarding';
 import { useApp } from './contexts/AppContext';
 
@@ -29,6 +30,8 @@ function AppContent() {
         return <TasksView />;
       case 'habits':
         return <HabitsView />;
+      case 'pomodoro':
+        return <PomodoroView />;
       case 'diary':
         return <DiaryView />;
       case 'health':

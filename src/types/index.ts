@@ -117,3 +117,33 @@ export interface OnboardingData {
   preferredTime: string;
   experience: string;
 }
+
+export interface PomodoroSession {
+  id: string;
+  userId: string;
+  taskId?: string;
+  taskTitle?: string;
+  duration: number; // in minutes
+  type: 'work' | 'shortBreak' | 'longBreak';
+  completed: boolean;
+  startedAt: Date;
+  completedAt?: Date;
+}
+
+export interface PomodoroStats {
+  today: {
+    sessions: number;
+    totalTime: number;
+    completedSessions: number;
+  };
+  week: {
+    sessions: number;
+    totalTime: number;
+    completedSessions: number;
+  };
+  total: {
+    sessions: number;
+    totalTime: number;
+    completedSessions: number;
+  };
+}

@@ -8,6 +8,7 @@ import {
   DollarSign, 
   Utensils, 
   Gift,
+  Timer,
   Settings,
   HelpCircle 
 } from 'lucide-react';
@@ -28,6 +29,7 @@ export function Sidebar() {
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'tasks', label: 'Tarefas', icon: CheckSquare, count: state.tasks.filter(t => !t.completed).length },
     { id: 'habits', label: 'Hábitos', icon: Repeat, count: state.habits.length },
+    { id: 'pomodoro', label: 'Pomodoro', icon: Timer },
     { id: 'diary', label: 'Diário', icon: BookOpen },
     { id: 'health', label: 'Saúde', icon: Heart },
     { id: 'finance', label: 'Finanças', icon: DollarSign },

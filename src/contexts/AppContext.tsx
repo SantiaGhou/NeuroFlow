@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, ReactNode, useEffect } from 'react';
-import { User, Block, Task, Habit, DiaryEntry, Achievement, HealthMetric, FinanceEntry, NutritionEntry, OnboardingData } from '../types';
+import { User, Block, Task, Habit, DiaryEntry, Achievement, HealthMetric, FinanceEntry, NutritionEntry, OnboardingData, PomodoroSession } from '../types';
 import { db } from '../utils/database';
 
 interface AppState {
@@ -13,6 +13,7 @@ interface AppState {
   healthMetrics: HealthMetric[];
   financeEntries: FinanceEntry[];
   nutritionEntries: NutritionEntry[];
+  pomodoroSessions: PomodoroSession[];
   isOnboarding: boolean;
   onboardingStep: number;
   theme: 'light' | 'dark';
@@ -35,6 +36,8 @@ type AppAction =
   | { type: 'ADD_HEALTH_METRIC'; payload: HealthMetric }
   | { type: 'ADD_FINANCE_ENTRY'; payload: FinanceEntry }
   | { type: 'ADD_NUTRITION_ENTRY'; payload: NutritionEntry }
+  | { type: 'START_POMODORO_SESSION'; payload: PomodoroSession }
+  | { type: 'COMPLETE_POMODORO_SESSION'; payload: PomodoroSession }
   | { type: 'UNLOCK_ACHIEVEMENT'; payload: Achievement }
   | { type: 'COMPLETE_ONBOARDING'; payload: OnboardingData }
   | { type: 'SET_ONBOARDING_STEP'; payload: number }
@@ -53,6 +56,7 @@ const initialState: AppState = {
   healthMetrics: [],
   financeEntries: [],
   nutritionEntries: [],
+  pomodoroSessions: [],
   isOnboarding: true,
   onboardingStep: 0,
   theme: 'dark'
@@ -164,6 +168,18 @@ function appReducer(state: AppState, action: AppAction): AppState {
       }
       return { ...state, nutritionEntries: [...state.nutritionEntries, action.payload] };
     
+    case 'START_POMODORO_SESSION':
+      if (state.user) {
+        // In a real app, you'd save to backend here
+      }
+      return { ...state, pomodoroSessions: [...state.pomodoroSessions, action.payload] };
+    
+    case 'COMPLETE_POMODORO_SESSION':
+      const updatedSessions = state.pomodoroSessions.map(session =>
+        session.id === action.payload.id ? action.payload : session
+      );
+      return { ...state, pomodoroSessions: updatedSessions };
+    
     case 'UNLOCK_ACHIEVEMENT':
       if (state.user) {
         db.createAchievement(action.payload, state.user.id);
@@ -227,6 +243,7 @@ function appReducer(state: AppState, action: AppAction): AppState {
         healthMetrics: action.payload.healthMetrics || [],
         financeEntries: action.payload.financeEntries || [],
         nutritionEntries: action.payload.nutritionEntries || [],
+        pomodoroSessions: action.payload.pomodoroSessions || [],
         achievements: action.payload.achievements || [],
         theme: action.payload.user?.preferences?.theme || 'dark',
         isOnboarding: !action.payload.user?.onboardingCompleted
@@ -261,6 +278,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         const healthMetrics = db.getHealthMetrics(userId);
         const financeEntries = db.getFinanceEntries(userId);
         const nutritionEntries = db.getNutritionEntries(userId);
+        const pomodoroSessions: PomodoroSession[] = []; // Would load from backend
         const achievements = db.getAchievements(userId);
         
         dispatch({
@@ -273,6 +291,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
             healthMetrics,
             financeEntries,
             nutritionEntries,
+            pomodoroSessions,
             achievements
           }
         });
