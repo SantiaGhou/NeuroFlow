@@ -1,77 +1,81 @@
 # NeuroFlow
 
-
-[![License](https://img.shields.io/github/license/SantiaGhou/NeuroFlow)](./LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)]
 [![Issues](https://img.shields.io/github/issues/SantiaGhou/NeuroFlow)](https://github.com/SantiaGhou/NeuroFlow/issues)
 [![Stars](https://img.shields.io/github/stars/SantiaGhou/NeuroFlow)](https://github.com/SantiaGhou/NeuroFlow/stargazers)
 [![Last Commit](https://img.shields.io/github/last-commit/SantiaGhou/NeuroFlow)](https://github.com/SantiaGhou/NeuroFlow/commits/main)
-[![Node.js](https://img.shields.io/badge/node-%3E=18.0.0-green.svg)](https://nodejs.org/)
-[![Vite](https://img.shields.io/badge/vite-%5E4.0.0-blueviolet.svg)](https://vitejs.dev/)
-[![TypeScript](https://img.shields.io/badge/typescript-%5E5.0.0-blue.svg)](https://www.typescriptlang.org/)
+
+---
 
 ## Sobre o Projeto
 
-**NeuroFlow** é um aplicativo moderno para gerenciamento de tarefas, métricas e hábitos, potencializado por inteligência artificial. Desenvolvido em TypeScript com Vite e Node.js, o NeuroFlow oferece uma experiência intuitiva e eficiente para organizar sua rotina e impulsionar sua produtividade.
+**NeuroFlow** é um aplicativo moderno para gerenciamento de tarefas, métricas e hábitos, com inteligência artificial integrada. Desenvolvido em TypeScript, Vite e Node.js, oferece uma interface simples e eficiente para organizar sua rotina e aumentar sua produtividade.
+
+---
 
 ## Funcionalidades
 
-- 📋 **Gerenciamento de Tarefas:** Crie, edite e acompanhe tarefas diárias.
-- 📈 **Métricas Personalizadas:** Monitore seu progresso com gráficos e relatórios.
-- 🔄 **Controle de Hábitos:** Estabeleça e acompanhe hábitos saudáveis.
-- 🤖 **Inteligência Artificial:** Sugestões automáticas e insights personalizados.
-- 🔔 **Notificações Inteligentes:** Lembretes e alertas para manter o foco.
-- 🌙 **Tema Escuro/Claro:** Interface adaptável ao seu gosto.
+- Gerenciamento de tarefas: criação, edição e acompanhamento.  
+- Métricas personalizadas: gráficos e relatórios do progresso.  
+- Controle de hábitos: estabelecimento e monitoramento.  
+- Inteligência artificial: sugestões e insights automáticos.  
+- Notificações inteligentes: lembretes para manter o foco.  
+- Tema escuro/claro: interface adaptável.
+
+---
 
 ## Tecnologias Utilizadas
 
-- [TypeScript](https://www.typescriptlang.org/)
-- [Vite](https://vitejs.dev/)
-- [Node.js](https://nodejs.org/)
-- [React](https://react.dev/) (frontend)
-- [Express](https://expressjs.com/) (backend)
-- [PostgreSQL](https://www.postgresql.org/) (banco de dados)
-- [OpenAI API](https://openai.com/) (IA)
+<p>
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
+  <img alt="Vite" src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" />
+  <img alt="Node.js" src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" />
+  <img alt="React" src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" />
+  <img alt="Express" src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" />
+  <img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" />
+  <img alt="OpenAI" src="https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white" />
+</p>
 
-## Instalação
+---
+
+## Como Rodar o Projeto
 
 ```bash
-# Clone o repositório
 git clone https://github.com/SantiaGhou/NeuroFlow.git
 cd NeuroFlow
-
-# Instale as dependências
 npm install
-
-# Configure as variáveis de ambiente
 cp .env.example .env
-
-# Inicie o servidor de desenvolvimento
 npm run dev
 ```
 
 ## Estrutura do Projeto
-
-```
-FUTURO***
+```bash
 NeuroFlow/
-├── server/         # API Node.js + Express
-├── src/        # Aplicação React + Vite
+├── server/         # API com Node.js + Express
+├── src/            # Frontend com React + Vite
 └── README.md
 ```
+## Como Contribuir
 
-## Contribuição
-
-1. Faça um fork do projeto
-2. Crie uma branch (`git checkout -b feature/nova-feature`)
-3. Commit suas alterações (`git commit -m 'feat: nova feature'`)
-4. Push para a branch (`git push origin feature/nova-feature`)
-5. Abra um Pull Request
-
-## Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](./LICENSE) para mais detalhes.
+1. Faça um fork do projeto  
+2. Crie uma branch (`git checkout -b feature/nova-feature`)  
+3. Faça commit das suas alterações (`git commit -m 'feat: nova feature'`)  
+4. Envie para o repositório remoto (`git push origin feature/nova-feature`)  
+5. Abra um Pull Request  
 
 ---
 
-![Profile](https://github.com/SantiaGhou.png?size=100)<br>
-Desenvolvido por [SantiaGhou](https://github.com/SantiaGhou) 🚀
+## Licença
+
+Este projeto está sob a licença MIT.
+
+---
+
+<p align="center">
+  <img src="https://github.com/SantiaGhou.png?size=80" alt="SantiaGhou" style="border-radius: 50%;" />
+  <br/>
+  Desenvolvido por <a href="https://github.com/SantiaGhou">SantiaGhou</a>
+</p>
+
+
+
