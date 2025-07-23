@@ -1,4 +1,4 @@
-# NeuroFlow
+# NeuroFlow - DESCONTINUADO
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)]
 [![Issues](https://img.shields.io/github/issues/SantiaGhou/NeuroFlow)](https://github.com/SantiaGhou/NeuroFlow/issues)
